@@ -2,8 +2,8 @@
 /**
  *  DB - A simple database class 
  *
- * @author		Author: Vivek Wicky Aswal. (https://twitter.com/#!/VivekWickyAswal)
- * @git 		https://github.com/wickyaswal/PHP-MySQL-PDO-Database-Class
+ * @author		Author: Shobhit. (
+ * @git 		https://github.com/shobhit421
  * @version      0.2ab
  *
  */
@@ -192,6 +192,25 @@ class DB
         } else {
             return NULL;
         }
+    }
+    
+    /**
+    * Select Query and RowCount
+    **/
+    public function queryRowCount($query, $params = null, $fetchmode = PDO::FETCH_ASSOC)
+    {
+        $query = trim(str_replace("\r", " ", $query));
+        
+        $this->Init($query, $params);
+        
+        $rawStatement = explode(" ", preg_replace("/\s+|\t+|\n+/", " ", $query));
+        
+        # Which SQL statement is used 
+        $statement = strtolower($rawStatement[0]);
+        
+        if ($statement === 'select' || $statement === 'show') {
+            return $this->sQuery->rowCount();
+        } 
     }
     
     /**
